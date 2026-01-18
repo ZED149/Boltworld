@@ -1,2 +1,7 @@
 FAILED_INVOICES_TEST.pdf
 FAILED_SLIPS_TEST.pdf
+PDF_Automation/__pycache__
+build/
+dist/
+sample_orders/
+*.spec
