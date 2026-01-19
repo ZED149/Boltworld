@@ -66,9 +66,13 @@ class ExcelHandler:
             existing_orders.add(row[0])
         for order in data:
             if order[0] in existing_orders:
-                continue
+                duplicate_orders.append(order[0])
             else:
                 worksheet.append(order)
+        
+        # if there are duplicate orders, show in a seperate window
+        if duplicate_orders:
+            GUI.show_duplicate_orders(duplicate_orders)
 
     # save
     def save(self, workbook: Workbook):

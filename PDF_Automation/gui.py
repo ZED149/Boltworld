@@ -212,3 +212,81 @@ class GUI(tk.Tk):
         root.withdraw()  # hide main window
         response = messagebox.showwarning(title=message["title"], message=message["message"], icon=message["icon"])
         root.destroy()
+
+    # show_duplicate_orders
+    @staticmethod
+    def show_duplicate_orders(duplicate_orders: list):
+        """Displays duplicate order numbers in a professional UI window"""
+
+        if not duplicate_orders:
+            return
+
+        window = tk.Toplevel()
+        window.title("Duplicate Orders Detected")
+        window.geometry("420x500")
+        window.resizable(False, False)
+        window.grab_set()  # modal
+
+        # Header
+        ttk.Label(
+            window,
+            text="Duplicate Orders Skipped",
+            font=("Segoe UI", 12, "bold")
+        ).pack(pady=(15, 5))
+
+        # Description
+        ttk.Label(
+            window,
+            text="The following order numbers already exist\nand were not added again:",
+            font=("Segoe UI", 10)
+        ).pack(pady=(0, 10))
+
+        # Table frame
+        frame = ttk.Frame(window)
+        frame.pack(fill="both", expand=True, padx=15, pady=5)
+
+        # Scrollbar
+        scrollbar = ttk.Scrollbar(frame)
+        scrollbar.pack(side="right", fill="y")
+
+        # Listbox (clean & readable)
+        listbox = tk.Listbox(
+            frame,
+            yscrollcommand=scrollbar.set,
+            font=("Consolas", 10),
+            height=10
+        )
+        listbox.pack(side="left", fill="both", expand=True)
+
+        scrollbar.config(command=listbox.yview)
+
+        # Insert duplicates
+        for order in duplicate_orders:
+            listbox.insert(tk.END, str(order))
+
+        # Close button
+        # Button container (adds breathing space)
+                # ---------- ACTION AREA (BOTTOM) ----------
+        action_frame = tk.Frame(window)
+        action_frame.pack(fill="x", pady=(8, 14))
+
+        close_btn = tk.Button(
+            action_frame,
+            text="Close",
+            command=window.destroy,
+            font=("Segoe UI", 11, "bold"),
+            bg="#2563eb",
+            fg="white",
+            activebackground="#1e40af",
+            activeforeground="white",
+            relief="flat",
+            padx=50,
+            pady=14,
+            cursor="hand2"
+        )
+        close_btn.pack()
+
+        window.after(100, lambda: window.focus_force())
+        window.bind("<Escape>", lambda e: window.destroy())
+
+        window.wait_window()  # block until closed
