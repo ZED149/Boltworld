@@ -58,8 +58,17 @@ class ExcelHandler:
     def write(self, worksheet: Worksheet, data):
         """Writes order details on the excel file.
         """
+        # need to check for duplicate orders before adding
+        duplicate_orders = []
+        # fetch existing orders from excel
+        existing_orders = set()
+        for row in worksheet.iter_rows(max_col=1, min_row=2, values_only=True):
+            existing_orders.add(row[0])
         for order in data:
-            worksheet.append(order)
+            if order[0] in existing_orders:
+                continue
+            else:
+                worksheet.append(order)
 
     # save
     def save(self, workbook: Workbook):

@@ -6,4 +6,5 @@ dist/
 sample_orders/
 *.spec
 .env
+boltworld.xlsx
 
