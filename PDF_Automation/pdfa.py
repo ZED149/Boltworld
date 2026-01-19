@@ -46,7 +46,7 @@ class PDFAutomation:
         order_details = pdf_handler.fetch_order_details(o_type='web')
 
         # writing the fetched order details on the Excel file
-        wb = excel_handler.open_file(headers=["ORDER_DETAILS", "DATE", "TIME"])
+        wb = excel_handler.open_file(headers=["ORDER_DETAILS", "DATE", "TIME", "USER"])
 
         # writing data on the excel_file
         excel_handler.write(wb.active, data=order_details)

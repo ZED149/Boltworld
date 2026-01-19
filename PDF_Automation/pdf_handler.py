@@ -45,6 +45,8 @@ class PDFHandler:
             list: A list containing order details as per specified.
         """
         order_details = []
+        from os import getlogin
+        logged_in_user = getlogin()
 
         # validating o_type
         assert o_type != "", "o_type cannot be none"
@@ -59,13 +61,13 @@ class PDFHandler:
                     date = datetime.now().date().strftime("%d-%m-%Y")
                     time = datetime.now().time().strftime("%I:%M %p")
                     # if a matching pattern is found, append the details to the list
-                    order_details.append([data.group(0), date, time])
+                    order_details.append([data.group(0), date, time, logged_in_user])
             elif o_type == 'ebay':
                 raise NotImplemented
             elif o_type == 'payslips':
                 raise NotImplemented
             
-        # splitting the list just to contain numbers only
+        # splitting the list and then converting order numbers into int just to contain numbers only in integer format
         for order in order_details:
             order[0] = order[0].split(': ')[1]
             order[0] = int(order[0])
