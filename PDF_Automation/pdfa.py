@@ -46,7 +46,7 @@ class PDFAutomation:
         order_details = pdf_handler.fetch_order_details(o_type='web')
 
         # writing the fetched order details on the Excel file
-        wb = excel_handler.open_file(headers=["ORDER_DETAILS", "DATE", "TIME", "USER"])
+        wb = excel_handler.open_file(headers=["ORDER_DETAILS", "DATE", "TIME", "USER"], create_file=True)
 
         # writing data on the excel_file
         excel_handler.write(wb.active, data=order_details)
@@ -57,8 +57,7 @@ class PDFAutomation:
         return code
 
     # run
-    def run(self):
-        """Runs the GUI layer of this program. Basically starts the program.
+    def run(self, gui_handler: GUI):
+        """Takes the GUI Handler of the program and starts the main loop.
         """
-        gui = GUI()
-        gui.mainloop()
+        gui_handler.mainloop()
