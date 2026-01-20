@@ -7,4 +7,5 @@ sample_orders/
 *.spec
 .env
 boltworld.xlsx
+version_info.txt
 
