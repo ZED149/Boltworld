@@ -348,7 +348,7 @@ class GUI(tk.Tk):
             )
             self.update_idletasks()
 
-            from .pdfa import PDFAutomation, PDFHandler
+            from ..pdfa import PDFAutomation, PDFHandler
             # BAKCEND LINKAGE POINT
             pdf_automation = PDFAutomation()
             # PDF Handler

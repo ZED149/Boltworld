@@ -3,9 +3,9 @@
 # This is the core Python file for PDF Automation class
 
 # IMPORTS !!!
-from .pdf_handler import PDFHandler
-from .excel_handler import ExcelHandler
-from .gui import GUI
+from .handlers.pdf_handler import PDFHandler
+from .handlers.excel_handler import ExcelHandler
+from .handlers.gui_handler import GUI
 
 class PDFAutomation:
     """This class is reponsible for handling and organizing PDF Automation tasks of any type.

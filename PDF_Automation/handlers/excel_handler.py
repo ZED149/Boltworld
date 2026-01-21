@@ -5,7 +5,7 @@
 import openpyxl
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.workbook.workbook import Workbook
-from .gui import GUI
+from .gui_handler import GUI
 
 class ExcelHandler:
     """This class is reponsible for handling excel related functionality such as reading, appending, removing, copying etc.
