@@ -1,4 +1,4 @@
 
 
 from .pdfa import PDFAutomation
-import handlers
+from .handlers import *
