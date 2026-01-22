@@ -12,9 +12,10 @@ class ExcelHandler:
     """
 
     __excel_filename: str = ''              # Name of the excel file that is being managed
+    __logger = None                         # Logger object
 
     # constructor
-    def __init__(self, filename: str) -> None:
+    def __init__(self, logger: None, filename: str) -> None:
         """Initialize an ExcelHandler instance.
         """
         # Validating filename
@@ -22,7 +23,10 @@ class ExcelHandler:
         assert filename != "", "Excel filename cannot be none"
         
         # initializing
+        self.__logger = logger
         self.__excel_filename = filename
+        if self.__logger.verbose:
+            self.__logger.write(f"[EXCEL_HANDLER] excel_filename={self.__excel_filename}\n")
 
     # open_file
     def open_file(self, headers: list, create_file: bool) -> openpyxl.Workbook:
@@ -58,7 +62,6 @@ class ExcelHandler:
         
         return wb
     
-
     # search
     def search(self, _type: str, search_value: str, excel_filename: str):
         """Search for the order details from the given Excel file.
@@ -103,7 +106,6 @@ class ExcelHandler:
             return (100, results)
         else:
             return (103, results)
-
 
     # write
     def write(self, worksheet: Worksheet, data):
@@ -155,7 +157,33 @@ class ExcelHandler:
                 workbook.save(self.__excel_filename)
             except PermissionError:
                 return 101
-        
+            
+    # indexing
+    def indexing(self, workbook: Workbook, start_index: int) -> []:
+        """Index an Excel file, from the starting index to the last value where a new digit is added.
+        Example:
+                start_index=0, 0-99\n
+                start_index=1222, 1222-9999\n
+                start_index=87123, 87123-99999\n
 
-        
-
+        Args:
+            start_index (int): Index to start indexing from.
+        """
+        if self.__logger.verbose:
+            self.__logger.write(f"[EXCEL HANDLER] start_index={start_index}\n")
+        # adding indexing to the file
+        ws = workbook.active
+        # divideing the index by 10 until the value becomes less that zero, it will provide the number of digits
+        digits = 0
+        temp = start_index
+        while(temp > 1):
+            temp /= 10
+            digits += 1
+        closing_index = ['9' for i in range(0, digits)]
+        closing_index = "".join(closing_index)
+        if self.__logger.verbose:
+            self.__logger.write(f"[EXCEL HANDLER] closing_index={closing_index}\n")
+        data = []
+        for i in range(start_index, int(closing_index) + 1):
+            data.append([i])
+        return data

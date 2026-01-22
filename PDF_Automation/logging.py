@@ -12,11 +12,12 @@ from datetime import datetime as dt
 # Log class
 class Logging:
     '''
-    Logs various parameters of Media Manager like while inserting movies or reading emails from Excel file etc.
+    Logs various parameters of a program such as logging variable names, values, timestamps, code execution status and status codes etc.
     '''
 
     # data members
     logger_name = None
+    logger_dirctory = None
     today = None
     date = None
     time = None
@@ -26,11 +27,13 @@ class Logging:
     __fd = None
     __log_repo = None
     __log_file_name = None
+    verbose = True
 
     # Constructor
-    def __init__(self, logger_name: str = None) -> None:
+    def __init__(self, logger_name: str = None, logger_directory = None) -> None:
         # assigning values to data members
         self.logger_name = logger_name
+        self.logging_directory = logger_directory
         self.today = dt.today()
         self.date = self.today.date()
         self.time = self.today.time().strftime('%H:%M:%S')
@@ -40,7 +43,7 @@ class Logging:
 
         # creating log file name
         self.__log_file_name = f"{self.logger_name}_{self.year}_{self.month}_{self.day}_{self.today.strftime('%H_%M_%S')}.txt"
-        self.__fd = open(file='media_manager/logs/' + self.__log_file_name, mode='w+')
+        self.__fd = open(file=self.logging_directory + self.__log_file_name, mode='w+')
 
     # __str__
     def __str__(self):
@@ -59,7 +62,8 @@ class Logging:
         # logging details to file
         message = f"Logger initialized with the name -> {self.logger_name}.\n"
         message = message + f'AUTHOR: {self.logger_name}\n'
-        message = message + f'Created at: {self.format_now()},\t(Year, Month, Date)\n'
+        message = message + f'Created at: {self.format_now()},\t(Year, Month, Date)\n\n'
+        message = message + "----------------------------------------------------------------------\n"
         self.__fd.write(message)
 
     # write

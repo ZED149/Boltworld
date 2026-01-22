@@ -11,3 +11,4 @@ version_info.txt
 ignored_files/
 logs/
 *.pyc
+*.xlsx
