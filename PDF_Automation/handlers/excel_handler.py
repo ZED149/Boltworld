@@ -108,24 +108,27 @@ class ExcelHandler:
             return (103, results)
 
     # write
-    def write(self, worksheet: Worksheet, data):
+    def write(self, worksheet: Worksheet, data, duplication_list: bool):
         """Writes order details on the excel file.
         """
-        # need to check for duplicate orders before adding
-        duplicate_orders = []
-        # fetch existing orders from excel
-        existing_orders = set()
-        for row in worksheet.iter_rows(max_col=1, min_row=2, values_only=True):
-            existing_orders.add(row[0])
+        if duplication_list:
+            # need to check for duplicate orders before adding
+            duplicate_orders = []
+            # fetch existing orders from excel
+            existing_orders = set()
+            for row in worksheet.iter_rows(max_col=1, min_row=2, values_only=True):
+                existing_orders.add(row[0])
         for order in data:
-            if order[0] in existing_orders:
-                duplicate_orders.append(order[0])
+            if duplication_list:
+                if order[0] in existing_orders:
+                    duplicate_orders.append(order[0])
             else:
                 worksheet.append(order)
         
         # if there are duplicate orders, show in a seperate window
-        if duplicate_orders:
-            GUI.show_duplicate_orders(duplicate_orders)
+        if duplication_list:
+            if duplicate_orders:
+                GUI.show_duplicate_orders(duplicate_orders)
 
     # save
     def save(self, workbook: Workbook):

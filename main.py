@@ -1,4 +1,4 @@
-
+from django import dispatch
 
 # This is the main of the PDF Automation program
 
@@ -17,6 +17,8 @@ from PDF_Automation import PDFAutomation, Logging
 from PDF_Automation.handlers import ExcelHandler
 
 # MAIN
+
+# Initializing important base variables
 base_dir = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(base_dir, ".env")
 png_path = os.path.join(base_dir, "zms_logo.png")
